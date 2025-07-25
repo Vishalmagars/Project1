@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
-import { ChevronDownIcon, StarIcon, ShieldCheckIcon, TruckIcon, CreditCardIcon, GlobeAltIcon, ChatBubbleLeftEllipsisIcon } from '@heroicons/react/24/solid';
+import {
+  StarIcon,
+  ShieldCheckIcon,
+  TruckIcon,
+  CreditCardIcon,
+  GlobeAltIcon,
+  ChatBubbleLeftEllipsisIcon
+} from '@heroicons/react/24/solid';
 
 const JewelryShowcase = () => {
-  const product = {
+  // 💎 Product data stays the same (kept all info)
+   const product = {
     title: 'Diamond Tennis Bracelet',
     subtitle: 'Certified VS1 Diamonds | 18k White Gold',
     price: '$4,750',
@@ -121,541 +129,235 @@ const JewelryShowcase = () => {
 
   const [activeImage, setActiveImage] = useState(product.gallery[0]);
   const [zoomImage, setZoomImage] = useState(null);
-  const [selectedQuantity, setSelectedQuantity] = useState('');
-  const [customQuantity, setCustomQuantity] = useState('');
-  const [showCustomQuantity, setShowCustomQuantity] = useState(false);
   const [activeTab, setActiveTab] = useState('description');
 
-  const quantityOptions = [
-    { value: '100-200', label: '100-200 pieces', price: '$4,750' },
-    { value: '201-500', label: '201-500 pieces', price: '$4,275' },
-    { value: '501-1000', label: '501-1000 pieces', price: '$3,800' },
-    { value: '1001-5000', label: '1001-5000 pieces', price: '$3,325' },
-    { value: 'custom', label: 'Custom Quantity', price: 'Contact for pricing' }
-  ];
-
-  const handleQuantityChange = (value) => {
-    setSelectedQuantity(value);
-    setShowCustomQuantity(value === 'custom');
-  };
-
-  const renderStars = (rating) => {
-    return Array.from({ length: 5 }, (_, i) => (
+  const renderStars = (rating) => (
+    Array.from({ length: 5 }, (_, i) => (
       <StarIcon
         key={i}
-        className={`w-4 h-4 ${i < Math.floor(rating) ? 'text-amber-400' : 'text-gray-300'}`}
+        className={`w-4 h-4 ${i < Math.floor(rating) ? 'text-yellow-500' : 'text-gray-300'}`}
       />
-    ));
-  };
+    ))
+  );
 
   return (
-    <div className="bg-gradient-to-br from-gray-50 to-white min-h-screen">
-      <style>
-        {`
-          @media (max-width: 640px) {
-            .responsive-tabs {
-              flex-wrap: nowrap;
-              overflow-x: auto;
-              white-space: nowrap;
-              -webkit-overflow-scrolling: touch;
-            }
-            .responsive-tabs::-webkit-scrollbar {
-              display: none;
-            }
-            .responsive-tabs {
-              -ms-overflow-style: none;
-              scrollbar-width: none;
-            }
-            .responsive-image {
-              height: 300px !important;
-            }
-            .responsive-thumbnail {
-              width: 60px !important;
-              height: 60px !important;
-            }
-            .responsive-font {
-              font-size: 1.5rem !important;
-            }
-            .responsive-text-sm {
-              font-size: 0.75rem !important;
-            }
-            .responsive-grid-cols-1 {
-              grid-template-columns: 1fr !important;
-            }
-          }
-          @media (min-width: 641px) and (max-width: 1024px) {
-            .responsive-image {
-              height: 400px !important;
-            }
-            .responsive-thumbnail {
-              width: 80px !important;
-              height: 80px !important;
-            }
-          }
-        `}
-      </style>
-
-      {/* Luxury Header */}
-      <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white py-4 px-4 sm:px-2">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center">
-            <div className="w-20 h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent mx-auto mb-1"></div>
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-normal tracking-wide mb-3 text-white responsive-font">
-              {product.title}
-            </h1>
-            <p className="text-sm sm:text-base text-gray-300 font-normal tracking-normal mb-2">
-              {product.subtitle}
-            </p>
-            
-          </div>
+    <div className="bg-white min-h-screen">
+      {/* HEADER */}
+      <header className="bg-white border-b py-6">
+        <div className="max-w-7xl mx-auto text-center px-4">
+          <h1 className="text-3xl md:text-4xl font-extrabold uppercase tracking-widest text-gray-900">
+            {product.title}
+          </h1>
+          <p className="text-sm md:text-base mt-2 text-gray-500 tracking-wide">{product.subtitle}</p>
         </div>
-      </div>
+      </header>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* LEFT COLUMN - Gallery */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Main Image */}
-            <div className="group cursor-zoom-in" onClick={() => setZoomImage(activeImage)}>
-              <div className="relative overflow-hidden bg-white rounded-lg shadow-2xl">
-                <img
-                  src={activeImage}
-                  alt="Diamond Tennis Bracelet"
-                  className="w-full h-[300px] sm:h-[400px] md:h-[500px] object-cover transition-transform duration-700 group-hover:scale-105 responsive-image"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-2">
-                  <button className="text-gray-700 hover:text-amber-500 transition-colors">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
+      {/* MAIN */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-3 gap-10">
+        {/* LEFT: GALLERY + DETAILS */}
+        <section className="lg:col-span-2 space-y-8">
+          {/* Main Image */}
+          <div
+            className="relative overflow-hidden rounded-xl bg-gray-50 cursor-zoom-in group"
+            onClick={() => setZoomImage(activeImage)}
+          >
+            <img
+              src={activeImage}
+              alt={product.title}
+              className="w-full h-[400px] md:h-[500px] object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+          </div>
+
+          {/* Thumbnails */}
+          <div className="flex gap-3 overflow-x-auto">
+            {product.gallery.map((img, idx) => (
+              <img
+                key={idx}
+                src={img}
+                alt="thumb"
+                onClick={() => setActiveImage(img)}
+                className={`w-20 h-20 object-cover rounded-lg cursor-pointer border ${
+                  activeImage === img ? 'border-black' : 'border-transparent hover:border-gray-300'
+                }`}
+              />
+            ))}
+          </div>
+
+          {/* Badges */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div className="flex items-center justify-center gap-2 bg-gray-50 p-3 rounded-lg">
+              <TruckIcon className="w-5 h-5 text-gray-800" />
+              <span className="text-xs uppercase tracking-widest">Free Shipping</span>
             </div>
-
-            {/* Thumbnail Gallery */}
-            <div className="flex gap-2 sm:gap-4 overflow-x-auto pb-2">
-              {product.gallery.map((img, i) => (
-                <div
-                  key={i}
-                  className={`flex-shrink-0 cursor-pointer transition-all duration-300 ${activeImage === img
-                      ? 'ring-2 ring-amber-400 ring-offset-2 ring-offset-white'
-                      : 'opacity-70 hover:opacity-100'
-                    }`}
-                  onClick={() => setActiveImage(img)}
-                >
-                  <img
-                    src={img}
-                    alt={`View ${i + 1}`}
-                    className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-lg shadow-lg responsive-thumbnail"
-                  />
-                </div>
-              ))}
+            <div className="flex items-center justify-center gap-2 bg-gray-50 p-3 rounded-lg">
+              <ShieldCheckIcon className="w-5 h-5 text-gray-800" />
+              <span className="text-xs uppercase tracking-widest">Insured</span>
             </div>
-
-            {/* Trust Badges */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
-              <div className="flex items-center justify-center space-x-2 bg-white p-3 sm:p-4 rounded-lg shadow-sm">
-                <TruckIcon className="w-5 h-5 sm:w-6 sm:h-6 text-green-500" />
-                <span className="text-xs sm:text-sm font-medium text-gray-700">Free Shipping</span>
-              </div>
-              <div className="flex items-center justify-center space-x-2 bg-white p-3 sm:p-4 rounded-lg shadow-sm">
-                <ShieldCheckIcon className="w-5 h-5 sm:w-6 sm:h-6 text-blue-500" />
-                <span className="text-xs sm:text-sm font-medium text-gray-700">Insured</span>
-              </div>
-              <div className="flex items-center justify-center space-x-2 bg-white p-3 sm:p-4 rounded-lg shadow-sm">
-                <CreditCardIcon className="w-5 h-5 sm:w-6 sm:h-6 text-purple-500" />
-                <span className="text-xs sm:text-sm font-medium text-gray-700">Secure Payment</span>
-              </div>
-              <div className="flex items-center justify-center space-x-2 bg-white p-3 sm:p-4 rounded-lg shadow-sm">
-                <GlobeAltIcon className="w-5 h-5 sm:w-6 sm:h-6 text-amber-500" />
-                <span className="text-xs sm:text-sm font-medium text-gray-700">Global Export</span>
-              </div>
+            <div className="flex items-center justify-center gap-2 bg-gray-50 p-3 rounded-lg">
+              <CreditCardIcon className="w-5 h-5 text-gray-800" />
+              <span className="text-xs uppercase tracking-widest">Secure Pay</span>
             </div>
-
-            {/* Product Overview */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
-              {Object.entries(product.overview).map(([key, value]) => (
-                <div key={key} className="text-center bg-white p-3 sm:p-4 rounded-lg shadow-sm">
-                  <div className="text-lg sm:text-xl font-medium text-slate-800 mb-1">{value}</div>
-                  <div className="text-xs sm:text-sm font-normal text-gray-500 uppercase tracking-normal">
-                    {key.replace(/([A-Z])/g, ' $1').trim()}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Certifications */}
-            <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6">
-              <h3 className="text-lg sm:text-xl font-medium text-slate-800 mb-4">Certifications & Standards</h3>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
-                {product.certifications.map((cert, i) => (
-                  <div key={i} className="flex items-center space-x-2 p-2 sm:p-3 bg-gray-50 rounded-lg">
-                    <span className="text-xl sm:text-2xl">{cert.icon}</span>
-                    <div>
-                      <div className="text-xs sm:text-sm font-medium text-gray-800">{cert.name}</div>
-                      {cert.verified && (
-                        <div className="flex items-center space-x-1">
-                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                          <span className="text-xs text-green-600">Verified</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Tabs Section */}
-            <div className="bg-white rounded-lg shadow-lg">
-              <div className="border-b border-gray-200">
-                <nav className="flex space-x-4 sm:space-x-8 px-4 sm:px-6 responsive-tabs">
-                  {[
-                    { id: 'description', label: 'Description' },
-                    { id: 'specs', label: 'Specifications' },
-                    { id: 'shipping', label: 'Shipping & Returns' },
-                    { id: 'video', label: 'Product Video' },
-                    { id: 'reviews', label: 'Reviews', count: product.totalReviews },
-                  ].map((tab) => (
-                    <button
-                      key={tab.id}
-                      onClick={() => setActiveTab(tab.id)}
-                      className={`py-3 sm:py-4 px-2 border-b-2 font-medium text-xs sm:text-sm ${activeTab === tab.id
-                          ? 'border-amber-500 text-amber-600'
-                          : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                        }`}
-                    >
-                      {tab.label}
-                      {tab.count && (
-                        <span className="ml-2 bg-gray-100 text-gray-600 py-1 px-2 rounded-full text-xs">
-                          {tab.count}
-                        </span>
-                      )}
-                    </button>
-                  ))}
-                </nav>
-              </div>
-
-              <div className="p-4 sm:p-6">
-                {/* Description Tab */}
-                {activeTab === 'description' && (
-                  <div className="space-y-4">
-                    <h3 className="text-base sm:text-lg font-medium text-gray-900">Product Description</h3>
-                    <p className="text-gray-700 leading-relaxed text-xs sm:text-sm">{product.description}</p>
-                  </div>
-                )}
-
-                {/* Reviews Tab */}
-                {activeTab === 'reviews' && (
-                  <div className="space-y-6">
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between">
-                      <div>
-                        <h3 className="text-base sm:text-lg font-medium text-gray-900">Customer Reviews</h3>
-                        <div className="flex items-center space-x-2 mt-1">
-                          <div className="flex">{renderStars(product.rating)}</div>
-                          <span className="text-xs sm:text-sm text-gray-600">
-                            {product.rating} out of 5 stars ({product.totalReviews} reviews)
-                          </span>
-                        </div>
-                      </div>
-                      <button className="mt-2 sm:mt-0 text-amber-600 hover:text-amber-500 text-xs sm:text-sm font-medium">
-                        Write a Review
-                      </button>
-                    </div>
-
-                    <div className="space-y-6">
-                      {reviews.map((review) => (
-                        <div key={review.id} className="border-b border-gray-200 pb-6 last:border-b-0">
-                          <div className="flex items-start justify-between">
-                            <div className="flex-1">
-                              <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 mb-2">
-                                <div className="flex items-center space-x-2">
-                                  <div className="w-8 h-8 bg-gradient-to-r from-amber-400 to-amber-500 rounded-full flex items-center justify-center text-white font-medium text-sm">
-                                    {review.name.charAt(0)}
-                                  </div>
-                                  <div>
-                                    <div className="font-medium text-gray-900 text-sm sm:text-base">{review.name}</div>
-                                    <div className="text-xs sm:text-sm text-gray-500">{review.country}</div>
-                                  </div>
-                                </div>
-                                {review.verified && (
-                                  <div className="flex items-center space-x-1 bg-green-50 px-2 py-1 rounded-full">
-                                    <ShieldCheckIcon className="w-3 h-3 text-green-500" />
-                                    <span className="text-xs text-green-600 font-medium">Verified Purchase</span>
-                                  </div>
-                                )}
-                              </div>
-
-                              <div className="flex flex-wrap items-center space-x-2 mb-2">
-                                <div className="flex">{renderStars(review.rating)}</div>
-                                <span className="text-xs sm:text-sm text-gray-500">{review.date}</span>
-                                <span className="text-xs sm:text-sm text-gray-500">• Order: {review.orderSize}</span>
-                              </div>
-
-                              <h4 className="font-medium text-gray-900 mb-2 text-sm sm:text-base">{review.title}</h4>
-                              <p className="text-gray-700 text-xs sm:text-sm leading-relaxed">{review.comment}</p>
-
-                              <div className="flex items-center space-x-4 mt-3">
-                                <button className="text-xs sm:text-sm text-gray-500 hover:text-gray-700">
-                                  👍 Helpful ({review.helpful})
-                                </button>
-                                <button className="text-xs sm:text-sm text-gray-500 hover:text-gray-700">
-                                  Reply
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Specifications Tab */}
-                {activeTab === 'specs' && (
-                  <div className="space-y-4">
-                    <h3 className="text-base sm:text-lg font-medium text-gray-900">Product Specifications</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
-                      {Object.entries(product.specs).map(([key, value]) => (
-                        <div key={key} className="flex justify-between items-center p-2 sm:p-3 bg-gray-50 rounded-lg">
-                          <span className="text-gray-600 font-medium text-xs sm:text-sm">{key}:</span>
-                          <span className="text-slate-800 font-medium text-xs sm:text-sm">{value}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-blue-50 rounded-lg">
-                      <h4 className="font-medium text-blue-900 mb-2 text-sm sm:text-base">Insurance Coverage</h4>
-                      <p className="text-xs sm:text-sm text-blue-800">
-                        Full value protection up to $50,000 per shipment through {product.insurance.provider}
-                      </p>
-                    </div>
-                  </div>
-                )}
-
-                {/* Shipping Tab */}
-                {activeTab === 'shipping' && (
-                  <div className="space-y-6">
-                    <div>
-                      <h3 className="text-base sm:text-lg font-medium text-gray-900 mb-4">Shipping Information</h3>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                        <div>
-                          <h4 className="font-medium text-gray-800 mb-2 text-sm sm:text-base">Delivery Options</h4>
-                          <ul className="space-y-2 text-xs sm:text-sm text-gray-600">
-                            <li>🚚 Standard Shipping: 7-14 business days</li>
-                            <li>✈️ Express Shipping: 3-5 business days</li>
-                            <li>🌍 Global Coverage: 150+ countries</li>
-                            <li>📦 Secure Packaging: Velvet box with tamper seal</li>
-                          </ul>
-                        </div>
-                        <div>
-                          <h4 className="font-medium text-gray-800 mb-2 text-sm sm:text-base">Returns & Exchanges</h4>
-                          <ul className="space-y-2 text-xs sm:text-sm text-gray-600">
-                            <li>↩️ 30-day return policy</li>
-                            <li>🔄 Free exchanges for defects</li>
-                            <li>💰 Full refund if not satisfied</li>
-                            <li>📞 24/7 customer support</li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Video Tab */}
-                {activeTab === 'video' && (
-                  <div>
-                    <h3 className="text-base sm:text-lg font-medium text-gray-900 mb-4">Product Showcase</h3>
-                    <div className="relative aspect-video rounded-lg overflow-hidden shadow-lg">
-                      <iframe
-                        src={product.videoUrl}
-                        title="Product Video"
-                        className="w-full h-full"
-                        allowFullScreen
-                      />
-                    </div>
-                  </div>
-                )}
-              </div>
+            <div className="flex items-center justify-center gap-2 bg-gray-50 p-3 rounded-lg">
+              <GlobeAltIcon className="w-5 h-5 text-gray-800" />
+              <span className="text-xs uppercase tracking-widest">Global</span>
             </div>
           </div>
 
-          {/* RIGHT COLUMN - Enhanced Sidebar */}
-          <div className="space-y-6">
-            {/* Quantity Selector */}
-         
-
-            {/* Pricing Card */}
-            <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6 border-t-4 border-amber-400">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-3 h-3 bg-emerald-500 rounded-full animate-pulse"></div>
-                <span className="text-emerald-600 font-medium text-xs sm:text-sm tracking-wide">
-                  IN STOCK • EXPORT READY
-                </span>
+          {/* Overview */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {Object.entries(product.overview).map(([key, val]) => (
+              <div key={key} className="bg-gray-50 rounded-lg p-4 text-center">
+                <div className="font-bold text-lg">{val}</div>
+                <div className="text-[10px] uppercase tracking-widest text-gray-500">{key}</div>
               </div>
+            ))}
+          </div>
 
-              <h3 className="text-base sm:text-lg font-medium text-slate-800 mb-4">Wholesale Pricing</h3>
-              <div className="space-y-3">
-                {product.pricing.map((tier, i) => (
-                  <div key={i} className="flex justify-between items-center p-2 sm:p-3 bg-gray-50 rounded-lg">
-                    <div>
-                      <div className="text-xs sm:text-sm font-medium text-gray-800">
-                        {tier.min}–{tier.max} pieces
-                      </div>
-                      {tier.savings && (
-                        <div className="text-xs text-green-600 font-medium">{tier.savings}</div>
-                      )}
-                    </div>
-                    <div className="text-right">
-                      <div className="text-slate-800 font-bold text-sm sm:text-base">{tier.price}</div>
-                      <div className="text-xs text-gray-500">{tier.unit}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-4 p-2 sm:p-3 bg-amber-50 rounded-lg">
-                <div className="text-xs sm:text-sm font-medium text-amber-800">💡 Volume Discounts Available</div>
-                <div className="text-xs text-amber-600">Save up to 30% on bulk orders</div>
-              </div>
+          {/* Certifications */}
+          <div className="bg-gray-50 rounded-xl p-6">
+            <h3 className="uppercase font-semibold tracking-widest text-gray-800 mb-4">
+              Certifications & Standards
+            </h3>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {product.certifications.map((c, idx) => (
+                <div key={idx} className="bg-white rounded-lg p-3 flex items-center gap-2 shadow-sm">
+                  <span className="text-xl">{c.icon}</span>
+                  <span className="text-sm">{c.name}</span>
+                </div>
+              ))}
             </div>
+          </div>
 
-            {/* Enhanced Quote Form */}
-            <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-lg shadow-lg p-4 sm:p-6 text-white">
-              <div className="flex items-center space-x-2 mb-4">
-                <ChatBubbleLeftEllipsisIcon className="w-5 sm:w-6 h-5 sm:h-6 text-amber-400" />
-                <h3 className="text-base sm:text-lg font-medium">Get Instant Quote</h3>
-              </div>
-
-              <div className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <input
-                    type="text"
-                    placeholder="First Name"
-                    className="w-full px-3 py-2 sm:py-3 bg-white/10 border border-white/20 rounded-lg focus:bg-white/20 focus:border-amber-400 focus:outline-none transition-all placeholder-white/60 text-white text-xs sm:text-sm"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Last Name"
-                    className="w-full px-3 py-2 sm:py-3 bg-white/10 border border-white/20 rounded-lg focus:bg-white/20 focus:border-amber-400 focus:outline-none transition-all placeholder-white/60 text-white text-xs sm:text-sm"
-                  />
-                </div>
-
-                <input
-                  type="email"
-                  placeholder="Business Email"
-                  className="w-full px-3 py-2 sm:py-3 bg-white/10 border border-white/20 rounded-lg focus:bg-white/20 focus:border-amber-400 focus:outline-none transition-all placeholder-white/60 text-white text-xs sm:text-sm"
-                />
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <input
-                    type="tel"
-                    placeholder="Phone Number"
-                    className="w-full px-3 py-2 sm:py-3 bg-white/10 border border-white/20 rounded-lg focus:bg-white/20 focus:border-amber-400 focus:outline-none transition-all placeholder-white/60 text-white text-xs sm:text-sm"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Company Name"
-                    className="w-full px-3 py-2 sm:py-3 bg-white/10 border border-white/20 rounded-lg focus:bg-white/20 focus:border-amber-400 focus:outline-none transition-all placeholder-white/60 text-white text-xs sm:text-sm"
-                  />
-                </div>
-
-                <textarea
-                  rows="3"
-                  placeholder="Tell us about your requirements, target market, and any customization needs..."
-                  className="w-full px-3 py-2 sm:py-3 bg-white/10 border border-white/20 rounded-lg focus:bg-white/20 focus:border-amber-400 focus:outline-none transition-all placeholder-white/60 text-white resize-none text-xs sm:text-sm"
-                />
-
-                <div className="flex items-center space-x-2">
-                  <input type="checkbox" id="newsletter" className="rounded text-amber-400" />
-                  <label htmlFor="newsletter" className="text-xs text-white/80">
-                    Subscribe to our newsletter for exclusive deals and new product updates
-                  </label>
-                </div>
-
+          {/* Tabs */}
+          <div className="bg-gray-50 rounded-xl">
+            <nav className="flex overflow-x-auto border-b text-sm uppercase tracking-widest">
+              {[
+                { id: 'description', label: 'Description' },
+                { id: 'specs', label: 'Specifications' },
+                { id: 'shipping', label: 'Shipping' },
+                { id: 'video', label: 'Video' },
+                { id: 'reviews', label: 'Reviews', count: product.totalReviews }
+              ].map((t) => (
                 <button
-                  onClick={() => alert('Quote request submitted! We\'ll respond within 2 hours.')}
-                  className="w-full py-2 sm:py-3 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-slate-900 font-medium rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-xs sm:text-sm"
+                  key={t.id}
+                  onClick={() => setActiveTab(t.id)}
+                  className={`px-6 py-3 border-b-2 ${
+                    activeTab === t.id
+                      ? 'border-black text-black font-medium'
+                      : 'border-transparent text-gray-500 hover:text-black'
+                  }`}
                 >
-                  Get Instant Quote
+                  {t.label}
+                  {t.count && <span className="ml-2 bg-gray-200 px-2 rounded-full">{t.count}</span>}
                 </button>
+              ))}
+            </nav>
 
-                <div className="text-center text-xs text-white/60 mt-2">
-                  ⚡ Average response time: 2 hours
+            <div className="p-6 text-sm leading-relaxed text-gray-700">
+              {activeTab === 'description' && <p>{product.description}</p>}
+              {activeTab === 'specs' && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {Object.entries(product.specs).map(([k, v]) => (
+                    <div key={k} className="flex justify-between bg-white p-3 rounded-lg">
+                      <span className="font-medium">{k}</span>
+                      <span>{v}</span>
+                    </div>
+                  ))}
                 </div>
-              </div>
-            </div>
-
-            {/* Business Information */}
-            <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6">
-              <h3 className="text-base sm:text-lg font-medium text-slate-800 mb-4">Trade Information</h3>
-              <div className="space-y-3">
-                {Object.entries(product.business).map(([key, value]) => (
-                  <div key={key} className="flex justify-between items-center p-2 border-b border-gray-100 last:border-b-0">
-                    <span className="text-gray-600 font-medium text-xs sm:text-sm">
-                      {key.replace(/([A-Z])/g, ' $1').trim()}:
-                    </span>
-                    <span className="text-slate-800 font-medium text-xs sm:text-sm">{value}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-4 p-2 sm:p-3 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg">
-                <div className="text-xs sm:text-sm font-medium text-blue-800 mb-1">🏭 Manufacturing Capacity</div>
-                <div className="text-xs text-blue-600">50,000 pieces per month</div>
-              </div>
-            </div>
-
-            {/* Payment & Security */}
-            <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6">
-              <h3 className="text-base sm:text-lg font-medium text-slate-800 mb-4">Payment & Security</h3>
-              <div className="space-y-4">
-                <div className="grid grid-cols-3 gap-2">
-                  <div className="flex items-center justify-center p-2 bg-gray-50 rounded text-xs font-medium">
-                    💳 Credit Card
-                  </div>
-                  <div className="flex items-center justify-center p-2 bg-gray-50 rounded text-xs font-medium">
-                    🏦 Wire Transfer
-                  </div>
-                  <div className="flex items-center justify-center p-2 bg-gray-50 rounded text-xs font-medium">
-                    📄 L/C
-                  </div>
+              )}
+              {activeTab === 'shipping' && (
+                <ul className="space-y-2">
+                  <li>🚚 Standard Shipping: 7–14 days</li>
+                  <li>✈️ Express: 3–5 days</li>
+                  <li>📦 Secure packaging included</li>
+                  <li>↩️ 30‑day returns</li>
+                </ul>
+              )}
+              {activeTab === 'video' && (
+                <div className="aspect-video rounded-xl overflow-hidden shadow">
+                  <iframe src={product.videoUrl} title="Video" className="w-full h-full" allowFullScreen />
                 </div>
-
-                <div className="space-y-2">
-                  <div className="flex items-center space-x-2 text-xs sm:text-sm">
-                    <ShieldCheckIcon className="w-4 h-4 text-green-500" />
-                    <span className="text-gray-700">SSL Encrypted Transactions</span>
-                  </div>
-                  <div className="flex items-center space-x-2 text-xs sm:text-sm">
-                    <ShieldCheckIcon className="w-4 h-4 text-green-500" />
-                    <span className="text-gray-700">PCI DSS Compliant</span>
-                  </div>
-                  <div className="flex items-center space-x-2 text-xs sm:text-sm">
-                    <ShieldCheckIcon className="w-4 h-4 text-green-500" />
-                    <span className="text-gray-700">Escrow Protection Available</span>
-                  </div>
+              )}
+              {activeTab === 'reviews' && (
+                <div className="space-y-6">
+                  {reviews.map((r) => (
+                    <div key={r.id} className="border-b pb-4">
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center">
+                          {r.name[0]}
+                        </div>
+                        <div>
+                          <p className="font-medium">{r.name}</p>
+                          <p className="text-xs text-gray-500">{r.country}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2 mb-2">{renderStars(r.rating)}<span className="text-xs text-gray-400">{r.date}</span></div>
+                      <h4 className="font-medium mb-1">{r.title}</h4>
+                      <p className="text-gray-600 text-sm">{r.comment}</p>
+                    </div>
+                  ))}
                 </div>
-              </div>
-            </div>
-
-            {/* Supplier Badge */}
-            <div className="bg-gradient-to-r from-amber-400 to-amber-500 rounded-lg shadow-lg p-4 sm:p-6 text-white">
-              <div className="text-center">
-                <div className="text-xl sm:text-2xl mb-2">🏆</div>
-                <div className="font-bold text-base sm:text-lg mb-1">Gold Supplier</div>
-                <div className="text-xs sm:text-sm opacity-90 mb-3">15+ Years Experience</div>
-                <div className="space-y-1 text-xs">
-                  <div>✓ 98.5% Customer Satisfaction</div>
-                  <div>✓ 10,000+ Orders Completed</div>
-                  <div>✓ ISO 9001:2015 Certified</div>
-                </div>
-              </div>
+              )}
             </div>
           </div>
-        </div>
-      </div>
+        </section>
+
+        {/* RIGHT: Pricing & Quote */}
+        <aside className="space-y-8">
+          <div className="bg-gray-50 p-6 rounded-xl border">
+            <h3 className="uppercase text-sm tracking-widest text-gray-700 mb-4">Wholesale Pricing</h3>
+            <div className="space-y-3">
+              {product.pricing.map((p, idx) => (
+                <div key={idx} className="flex justify-between bg-white p-3 rounded-lg">
+                  <div>
+                    <p className="font-medium text-sm">{p.min}-{p.max} pcs</p>
+                    {p.savings && <p className="text-xs text-green-600">{p.savings}</p>}
+                  </div>
+                  <div className="text-right">
+                    <p className="font-bold">{p.price}</p>
+                    <p className="text-xs text-gray-500">{p.unit}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="bg-black text-white p-6 rounded-xl space-y-4">
+            <div className="flex items-center gap-2 mb-4">
+              <ChatBubbleLeftEllipsisIcon className="w-5 h-5 text-yellow-400" />
+              <h3 className="uppercase text-sm tracking-widest">Get Instant Quote</h3>
+            </div>
+            <input className="w-full px-3 py-2 rounded bg-white/10 text-white placeholder-gray-400" placeholder="First Name"/>
+            <input className="w-full px-3 py-2 rounded bg-white/10 text-white placeholder-gray-400" placeholder="Last Name"/>
+            <input className="w-full px-3 py-2 rounded bg-white/10 text-white placeholder-gray-400" placeholder="Business Email"/>
+            <textarea className="w-full px-3 py-2 rounded bg-white/10 text-white placeholder-gray-400" placeholder="Your requirements…"/>
+            <button className="w-full py-3 bg-yellow-400 text-black rounded uppercase tracking-widest hover:bg-yellow-500 transition">
+              Submit Quote
+            </button>
+          </div>
+
+          <div className="bg-gray-50 p-6 rounded-xl">
+            <h3 className="uppercase text-sm tracking-widest mb-3 font-medium">Trade Info</h3>
+            {Object.entries(product.business).map(([k,v])=>(
+              <div key={k} className="flex justify-between text-sm border-b py-2 last:border-0">
+                <span className="text-gray-500">{k}</span>
+                <span className="font-medium">{v}</span>
+              </div>
+            ))}
+          </div>
+
+          <div className="bg-gray-50 p-6 rounded-xl">
+            <h3 className="uppercase text-sm tracking-widest mb-3 font-medium">Payment & Security</h3>
+            <p className="text-sm mb-2">💳 Credit Card • 🏦 Wire • 📄 L/C</p>
+            <p className="text-xs text-gray-500">SSL Secured • PCI DSS • Escrow available</p>
+          </div>
+
+          <div className="bg-yellow-400 text-black p-6 rounded-xl text-center">
+            <h3 className="font-bold uppercase tracking-widest mb-2">🏆 Gold Supplier</h3>
+            <p className="text-sm">15+ Years Experience • 98.5% Satisfaction</p>
+          </div>
+        </aside>
+      </main>
     </div>
   );
 };

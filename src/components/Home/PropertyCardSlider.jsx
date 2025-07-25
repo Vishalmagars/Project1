@@ -1,10 +1,6 @@
-import React, { useState } from 'react';
-import {
-  ChevronLeft,
-  ChevronRight,
-  Maximize2
-} from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const products = [
   {
@@ -15,8 +11,8 @@ const products = [
     carat: 22,
     material: "Gold & Ruby",
     images: [
-      "https://images.unsplash.com/photo-1543294001-f7cd5d7fb516?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "https://images.unsplash.com/photo-1600721391776-b5cd0e0048f9?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3 SHEETS",
+      "https://images.unsplash.com/photo-1543294001-f7cd5d7fb516?q=80&w=870&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1600721391776-b5cd0e0048f9?q=80&w=387&auto=format&fit=crop",
     ],
   },
   {
@@ -27,8 +23,8 @@ const products = [
     carat: 18,
     material: "Platinum & Emerald",
     images: [
-      "https://images.unsplash.com/photo-1561828995-aa79a2db86dd?q=80&w=580&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "https://images.unsplash.com/photo-1543294001-f7cd5d7fb516?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      "https://images.unsplash.com/photo-1561828995-aa79a2db86dd?q=80&w=580&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1543294001-f7cd5d7fb516?q=80&w=870&auto=format&fit=crop",
     ],
   },
   {
@@ -39,8 +35,8 @@ const products = [
     carat: 24,
     material: "Diamond & White Gold",
     images: [
-      "https://images.unsplash.com/photo-1600721391776-b5cd0e0048f9?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=870&q=80"
+      "https://images.unsplash.com/photo-1600721391776-b5cd0e0048f9?q=80&w=387&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=870&q=80",
     ],
   },
   {
@@ -51,19 +47,18 @@ const products = [
     carat: 20,
     material: "White Gold & Sapphire",
     images: [
-      "https://images.unsplash.com/photo-1600721391689-2564bb8055de?q=80&w=406&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "https://images.unsplash.com/photo-1561828995-aa79a2db86dd?q=80&w=580&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      "https://images.unsplash.com/photo-1600721391689-2564bb8055de?q=80&w=406&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1561828995-aa79a2db86dd?q=80&w=580&auto=format&fit=crop",
     ],
   },
-  
 ];
 
-const Feature = () => {
+export default function Feature() {
   const navigate = useNavigate();
   const [currentImageIndex, setCurrentImageIndex] = useState(Array(products.length).fill(0));
 
   const nextImage = (idx) => {
-    setCurrentImageIndex((prev) => {
+    setCurrentImageIndex(prev => {
       const copy = [...prev];
       copy[idx] = (copy[idx] + 1) % products[idx].images.length;
       return copy;
@@ -71,113 +66,74 @@ const Feature = () => {
   };
 
   const prevImage = (idx) => {
-    setCurrentImageIndex((prev) => {
+    setCurrentImageIndex(prev => {
       const copy = [...prev];
       copy[idx] = (copy[idx] - 1 + products[idx].images.length) % products[idx].images.length;
       return copy;
     });
   };
 
-  const handleCardClick = () => navigate('/productShowcase');
-  const handleShowMore = () => navigate('/products');
+  const handleCardClick = () => navigate("/productShowcase");
 
   return (
-    <div className=" bg-white px-4 py-8 sm:px-6 lg:px-8">
-      <div className="text-left mb-8 max-w-7xl mx-auto">
-        <h2 className="text-2xl sm:text-3xl lg:text-4xl text-gray-900 mb-4 font-bold leading-snug sm:leading-tight">
-          Featured Products
+    <section className="bg-white px-4 py-16 sm:px-8 lg:px-16">
+      {/* Section Heading */}
+      <div className="text-center mb-14">
+        <h2 className="text-3xl md:text-4xl font-extrabold uppercase tracking-widest text-gray-900">
+          Featured
         </h2>
-        <p className="text-gray-700 text-sm sm:text-lg lg:text-xl mb-4 max-w-xl leading-relaxed">
-          Explore timeless elegance and intricate craftsmanship in every piece.
+        <p className="mt-3 text-gray-600 text-base md:text-lg max-w-2xl mx-auto">
+          Discover our curation of timeless luxury pieces.
         </p>
       </div>
 
-      <div className="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 ">
+      {/* Product Grid */}
+      <div className="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((product, idx) => (
           <div
             key={idx}
-            className="bg-white rounded-xl shadow-md overflow-hidden cursor-pointer focus:outline-none focus:ring-2 focus:ring-yellow-400"
             onClick={handleCardClick}
+            className="cursor-pointer group"
             tabIndex={0}
-            onKeyDown={(e) => (['Enter', ' '].includes(e.key) ? handleCardClick() : null)}
+            onKeyDown={(e) => ["Enter"," "].includes(e.key) && handleCardClick()}
           >
-            <div className="relative w-full aspect-square overflow-hidden">
+            <div className="relative aspect-square overflow-hidden">
               <img
                 src={product.images[currentImageIndex[idx]]}
                 alt={product.title}
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 loading="lazy"
               />
+
+              {/* Minimal navigation arrows */}
               <div
-                className="absolute inset-0 flex justify-between items-center p-2 sm:p-3 opacity-0 hover:opacity-100 transition-opacity"
+                className="absolute inset-0 flex justify-between items-center px-2 opacity-0 group-hover:opacity-100 transition"
                 onClick={(e) => e.stopPropagation()}
               >
-                <button className="bg-white p-2 rounded-full shadow-md" onClick={() => prevImage(idx)}>
-                  <ChevronLeft className="w-6 h-6 text-gray-700" />
+                <button
+                  onClick={() => prevImage(idx)}
+                  className="bg-white/90 border border-black hover:bg-black hover:text-white p-2 rounded-full transition"
+                >
+                  <ChevronLeft className="w-4 h-4" />
                 </button>
-                <button className="bg-white p-2 rounded-full shadow-md" onClick={() => nextImage(idx)}>
-                  <ChevronRight className="w-6 h-6 text-gray-700" />
+                <button
+                  onClick={() => nextImage(idx)}
+                  className="bg-white/90 border border-black hover:bg-black hover:text-white p-2 rounded-full transition"
+                >
+                  <ChevronRight className="w-4 h-4" />
                 </button>
-  </div>
-              <div className="absolute bottom-0 w-full bg-gradient-to-t from-black/80 to-transparent p-3 sm:p-4">
-                <div className="flex justify-between items-end">
-                  <div className="text-white space-y-1.5">
-                    <p className="uppercase text-sm sm:text-base">{product.type}</p>
-                    <p className="text-sm sm:text-base">{product.material}</p>
-                    <p className="text-sm sm:text-base">{product.carat} Carat</p>
-                    <p className="text-xl sm:text-2xl font-bold">{product.price}</p>
-                  </div>
-                  <button className="bg-white/20 p-2 rounded-full" onClick={(e) => e.stopPropagation()}>
-                    <Maximize2 className="w-6 h-6 text-white" />
-                  </button>
-                </div>
+              </div>
+
+              {/* Caption Overlay */}
+              <div className="absolute bottom-0 left-0 p-4 bg-gradient-to-t from-white/90 via-white/70 to-transparent w-full">
+                <p className="text-[11px] uppercase tracking-widest text-gray-700">{product.type}</p>
+                <p className="text-sm font-medium text-gray-900">{product.title}</p>
+                <p className="text-sm mt-1 text-gray-600">{product.price}</p>
               </div>
             </div>
           </div>
         ))}
       </div>
-
-      <div className="mt-8 text-center">
-       <button
-  onClick={handleShowMore}
-  className="button"
-  style={{ "--clr": "#facc15" }} // Tailwind's bg-yellow-400
->
-  <span className="button__icon-wrapper">
-    <svg
-      viewBox="0 0 14 15"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="button__icon-svg"
-      width="10"
-    >
-      <path
-        d="M13.376 11.552l-.264-10.44-10.44-.24.024 2.28 6.96-.048L.2 12.56l1.488 1.488 9.432-9.432-.048 6.912 2.304.024z"
-        fill="currentColor"
-      />
-    </svg>
-
-    <svg
-      viewBox="0 0 14 15"
-      fill="none"
-      width="10"
-      xmlns="http://www.w3.org/2000/svg"
-      className="button__icon-svg button__icon-svg--copy"
-    >
-      <path
-        d="M13.376 11.552l-.264-10.44-10.44-.24.024 2.28 6.96-.048L.2 12.56l1.488 1.488 9.432-9.432-.048 6.912 2.304.024z"
-        fill="currentColor"
-      />
-    </svg>
-  </span>
-  View All
-</button>
-
-
-        
-      </div>
-    </div>
+    </section>
   );
-};
-
-export default Feature;
+}

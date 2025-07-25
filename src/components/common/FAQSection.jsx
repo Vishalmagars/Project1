@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const faqs = [
   {
@@ -28,59 +29,66 @@ const faqs = [
   },
 ];
 
-const FAQSection = () => {
+export default function FAQSection() {
   const [openIndex, setOpenIndex] = useState(null);
-
-  const toggle = (index) => {
-    setOpenIndex(index === openIndex ? null : index);
-  };
+  const toggle = (index) => setOpenIndex(index === openIndex ? null : index);
 
   return (
-    <section className="bg-white py-20 px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto text-center mb-12">
-        <h2 className="text-sm text-yellow-600 uppercase font-semibold tracking-wider mb-2">
+    <section className="bg-white py-20 px-6 md:px-16">
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="max-w-4xl mx-auto text-center mb-16"
+      >
+        <h2 className="uppercase tracking-[0.2em] text-xs text-gray-500 mb-2">
           FAQs
         </h2>
-        <h1 className="text-3xl font-bold text-gray-900">Frequently Asked Questions</h1>
-        <p className="text-gray-600 mt-3">
-          Find answers related to international orders, product quality, logistics, and custom jewelry solutions.
+        <h1 className="text-4xl md:text-5xl font-extrabold uppercase tracking-widest text-gray-900 mb-4">
+          Frequently Asked Questions
+        </h1>
+        <p className="text-base text-gray-600">
+          Everything you need to know about our export process, certifications, and custom jewelry services.
         </p>
-      </div>
+      </motion.div>
 
-      <div className="max-w-3xl mx-auto space-y-6">
-        {faqs.map((faq, index) => {
-          const isOpen = openIndex === index;
-          const answerId = `faq-answer-${index}`;
-          const buttonId = `faq-question-${index}`;
-
+      {/* FAQ Items */}
+      <div className="max-w-3xl mx-auto divide-y divide-gray-200">
+        {faqs.map((faq, i) => {
+          const isOpen = openIndex === i;
           return (
-            <div key={index} className="border-b border-gray-200 pb-4">
+            <div key={i} className="py-6">
               <button
-                id={buttonId}
-                aria-expanded={isOpen}
-                aria-controls={answerId}
-                onClick={() => toggle(index)}
-                className="w-full text-left text-lg font-medium text-gray-800 focus:outline-none flex justify-between items-center"
+                onClick={() => toggle(i)}
+                className="w-full flex justify-between items-center text-left group focus:outline-none"
               >
-                {faq.question}
-                <span className="ml-4 text-yellow-500 text-xl">{isOpen ? '-' : '+'}</span>
+                <span className="text-lg md:text-xl font-medium text-gray-900 group-hover:text-gray-600 transition-colors">
+                  {faq.question}
+                </span>
+                <span className="ml-4 text-2xl font-bold text-black">
+                  {isOpen ? '−' : '+'}
+                </span>
               </button>
-              {isOpen && (
-                <p
-                  id={answerId}
-                  role="region"
-                  aria-labelledby={buttonId}
-                  className="mt-3 text-gray-600 leading-relaxed"
-                >
-                  {faq.answer}
-                </p>
-              )}
+              <AnimatePresence>
+                {isOpen && (
+                  <motion.p
+                    key="content"
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.3 }}
+                    className="mt-4 text-gray-600 leading-relaxed"
+                  >
+                    {faq.answer}
+                  </motion.p>
+                )}
+              </AnimatePresence>
             </div>
           );
         })}
       </div>
     </section>
   );
-};
-
-export default FAQSection;
+}

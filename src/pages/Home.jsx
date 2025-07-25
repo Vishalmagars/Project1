@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Hero from '../components/Home/Hero'
-import FeaturedProducts from '../components/Home/FeaturedProducts'
 import WhyChooseUs from '../components/Home/WhyChooseUs'
 import Testimonials from '../components/Home/Testimonials'
 import CompanyProfile from '../components/Home/CompanyProfile'
@@ -13,10 +12,11 @@ export default class Home extends Component {
       <div>
         <Hero />
         <PropertyCardSlider />
+      
         <CompanyProfile />
-         <Testimonials />
         <WhyChooseUs />
-       
+        <Testimonials />
+
       </div>
     )
   }

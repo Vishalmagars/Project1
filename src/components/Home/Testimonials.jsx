@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Dummy customer data
 const customers = [
   {
     name: 'Aisha Kapoor, CEO',
@@ -53,12 +52,10 @@ const customers = [
   },
 ];
 
-
-const TestimonialSlider = () => {
+export default function TestimonialSlider() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const timeoutRef = useRef(null);
 
-  // Auto-slide every 3 seconds
   useEffect(() => {
     startAutoSlide();
     return () => clearInterval(timeoutRef.current);
@@ -68,7 +65,7 @@ const TestimonialSlider = () => {
     clearInterval(timeoutRef.current);
     timeoutRef.current = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % customers.length);
-    }, 3000);
+    }, 4000);
   };
 
   const handleAvatarClick = (index) => {
@@ -77,20 +74,21 @@ const TestimonialSlider = () => {
   };
 
   return (
-    <div className="bg-gray-50 py-16 px-6 md:px-20">
+    <section className="bg-white py-20 px-6 md:px-16">
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-start gap-12">
-          {/* Left */}
-          <div className="md:w-1/2 space-y-4">
-            <p className="text-sm text-gray-500 uppercase tracking-wide font-medium">Partners</p>
-            <h2 className="text-3xl md:text-4xl font-semibold leading-snug">
-              Ask our <span className="text-yellow-500">happy customers</span><br />
+        {/* Header */}
+        <div className="flex flex-col md:flex-row justify-between items-start gap-12 mb-12">
+          <div className="md:w-1/2 space-y-3">
+            <h3 className="text-xs font-medium text-gray-500 uppercase tracking-[0.2em]">
+              Partners
+            </h3>
+            <h2 className="text-3xl md:text-4xl font-extrabold uppercase tracking-widest leading-tight text-gray-900">
+              Ask our <span className="bg-black text-white px-2 inline-block">happy customers</span><br />
               about our quality
             </h2>
           </div>
 
-          {/* Right: Animated Testimonial */}
-          <div className="md:w-1/2 text-gray-700 min-h-[120px]">
+          <div className="md:w-1/2 min-h-[120px] text-gray-700">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentIndex}
@@ -98,47 +96,46 @@ const TestimonialSlider = () => {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -30 }}
                 transition={{ duration: 0.5 }}
+                className="text-base md:text-lg leading-relaxed"
               >
-                <p className="mb-3">{customers[currentIndex].testimonial}</p>
-                <p className="font-semibold text-sm">
-                  {customers[currentIndex].name}, {customers[currentIndex].company} | {customers[currentIndex].country}
+                <p className="mb-4 italic">“{customers[currentIndex].testimonial}”</p>
+                <p className="font-semibold text-sm uppercase tracking-wider">
+                  {customers[currentIndex].name}
+                  <span className="text-gray-400 normal-case">
+                    , {customers[currentIndex].company} — {customers[currentIndex].country}
+                  </span>
                 </p>
               </motion.div>
             </AnimatePresence>
           </div>
         </div>
 
-        {/* Avatar Scroll Row */}
-      <div className="mt-12">
-  <div className="flex flex-wrap justify-center gap-4 max-w-full">
-    {customers.map((c, index) => (
-      <button
-        key={index}
-        onClick={() => handleAvatarClick(index)}
-        className={`w-14 h-14 rounded-full overflow-hidden border-2 transition-all duration-300 ${
-          currentIndex === index
-            ? 'border-yellow-400 scale-105'
-            : 'border-white hover:scale-105'
-        }`}
-      >
-        <img
-          src={c.avatar}
-          alt={c.name}
-          className="w-full h-full object-cover"
-        />
-      </button>
-    ))}
+        {/* Avatars */}
+        <div className="flex flex-wrap justify-center gap-6 mt-10">
+          {customers.map((c, index) => (
+            <button
+              key={index}
+              onClick={() => handleAvatarClick(index)}
+              className={`w-16 h-16 rounded-full overflow-hidden border transition-transform duration-300 ${
+                currentIndex === index
+                  ? 'border-black scale-110'
+                  : 'border-gray-200 hover:scale-105'
+              }`}
+            >
+              <img
+                src={c.avatar}
+                alt={c.name}
+                className="w-full h-full object-cover"
+              />
+            </button>
+          ))}
 
-    {/* CTA Circle */}
-    <div className="w-14 h-14 rounded-full bg-yellow-400 text-[10px] font-semibold flex items-center justify-center text-center text-white shadow-md cursor-pointer hover:scale-105 transition-transform duration-200">
-      Become<br />Partner
-    </div>
-  </div>
-</div>
-
+          {/* CTA */}
+          <div className="w-16 h-16 rounded-full bg-black text-white text-[10px] uppercase font-semibold flex items-center justify-center text-center cursor-pointer hover:bg-gray-800 transition-colors">
+            Become <br /> Partner
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   );
-};
-
-export default TestimonialSlider;
+}

@@ -1,6 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
 import Home from '../../pages/Home';
-import ProductPage from '../ProductPage/ProductPage';
 import AboutMe from '../ProductPage/AboutMe';
 import TestimonialSlider from '../Home/Testimonials';
 import ProductShowcase from '../ProductPage/PropertyShowcase';
@@ -11,11 +10,12 @@ import OurMission from '../../pages/OurMission';
 import OurVisioin from '../../pages/OurVisioin';
 import CompanyGallery from '../Home/CompanyGallery';
 import JewelryPortfolioPage from '../../pages/PortfolioPage';
+import ProductGrid from '../ProductPage/ProductGrid';
 
 const AppRoutes = () => (
   <Routes>
     <Route path="/" element={<Home />} />
-    <Route path="/products" element={<ProductPage/>} />
+    <Route path="/products" element={<ProductGrid/>} />
     <Route
       path="/about"
       element={

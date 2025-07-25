@@ -106,9 +106,9 @@ const ProductListingPage = () => {
   };
 
   return (
-    <section className="min-h-screen bgwhite">
+    <section className="min-h-screen bg-white">
       {/* Header */}
-      <header className="relative  py-16 shadow-inner">
+      <header className="relative  py-16 ">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight mb-3">
             Exclusive Jewelry Collection
@@ -131,7 +131,7 @@ const ProductListingPage = () => {
       )}
 
       {/* Product Grid */}
-      <div className="max-w-7xl mx-auto px-4 py-8 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="max-w-7xl mx-auto px-4 py-8 grid grid-cols- sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {displayedProducts.map((product) => (
           <div
             key={product.id}

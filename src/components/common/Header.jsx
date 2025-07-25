@@ -1,96 +1,100 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { FiPhone, FiMenu, FiX } from "react-icons/fi";
-import { FaInstagram, FaTwitter, FaLinkedin } from "react-icons/fa";
-import { motion } from "framer-motion";
+import { Menu, X } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 
-const Navbar = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
+export default function HeaderNavbarLuxury() {
+  const [open, setOpen] = useState(false);
 
   const navLinks = [
     { label: "Collection", path: "/products" },
     { label: "Portfolio", path: "/portfolio" },
-
     { label: "About", path: "/about" },
-    // { label: "Showcase", path: "/productShowcase" },
     { label: "Certificates", path: "/Certificates" },
-    // { label: "Our Mission", path: "/ourmission" },
-    // { label: "Our Vision", path: "/ourvision" },
     { label: "Contact", path: "/contact" },
   ];
 
   return (
-    <header className="w-full bg-white sticky top-0 z-50">
-      {/* Top Bar */}
-      <div className="flex items-center justify-between px-4 md:px-8 py-2 text-sm text-gray-600">
-        <div className="flex items-center gap-2">
-          <FiPhone className="text-gray-500" />
-          <span>Need help?</span>
-          <a href="tel:+08505447514" className="font-semibold text-black">
-            +0(850) 544 7514
-          </a>
+    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        {/* Desktop */}
+        <div className="hidden md:flex items-center justify-between h-20">
+          <nav className="flex-1 flex justify-start gap-10">
+            {navLinks.slice(0, 2).map((link) => (
+              <NavItem key={link.label} to={link.path} label={link.label} />
+            ))}
+          </nav>
+
+          {/* Center Logo */}
+          <Link
+            to="/"
+            className="text-3xl font-extrabold uppercase tracking-[0.2em] hover:opacity-80 transition"
+          >
+            Crosson
+          </Link>
+
+          <nav className="flex-1 flex justify-end gap-10">
+            {navLinks.slice(2).map((link) => (
+              <NavItem key={link.label} to={link.path} label={link.label} />
+            ))}
+          </nav>
         </div>
-        <div className="flex items-center gap-3 text-lg">
-          <a href="https://www.linkedin.com/in/i-vishal-magar/" aria-label="LinkedIn" className="hover:text-yellow-600"><FaLinkedin /></a>
-          <a href="https://www.instagram.com/vishal3_6_9/" aria-label="Instagram" className="hover:text-yellow-600"><FaInstagram /></a>
-          <a href="https://x.com/" aria-label="Twitter" className="hover:text-yellow-600"><FaTwitter /></a>
+
+        {/* Mobile */}
+        <div className="flex md:hidden items-center justify-between h-16">
+          <Link
+            to="/"
+            className="text-2xl font-extrabold uppercase tracking-widest"
+          >
+            Crosson
+          </Link>
+          <button
+            onClick={() => setOpen(!open)}
+            className="text-gray-900 hover:text-gray-600"
+          >
+            {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
       </div>
 
-      {/* Main Navbar */}
-      <nav className="flex items-center justify-between px-4 md:px-8 py-3 border-b">
-        {/* Logo */}
-        <Link to="/" className="text-2xl font-extrabold tracking-wide text-gray-800 hover:text-yellow-600 transition">
-          Crosson
-        </Link>
-
-        {/* Desktop Nav */}
-        <ul className="hidden md:flex gap-6 text-base font-medium text-gray-700">
-          {navLinks.map((link) => (
-            <li key={link.label}>
-              <Link
-                to={link.path}
-                className="hover:text-yellow-600 transition-colors"
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-
-        {/* Mobile Menu Icon */}
-        <button
-          className="md:hidden text-2xl"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle Menu"
-        >
-          {menuOpen ? <FiX /> : <FiMenu />}
-        </button>
-      </nav>
-
       {/* Mobile Menu */}
-      {menuOpen && (
-        <motion.ul
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ height: "auto", opacity: 1 }}
-          transition={{ duration: 0.3 }}
-          className="md:hidden px-4 py-2 border-t bg-white"
-        >
-          {navLinks.map((link) => (
-            <li key={link.label} className="py-3 border-b text-gray-700">
-              <Link
-                to={link.path}
-                onClick={() => setMenuOpen(false)}
-                className="block w-full hover:text-yellow-600"
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
-        </motion.ul>
-      )}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.4 }}
+            className="md:hidden bg-white border-t border-gray-200"
+          >
+            <ul className="flex flex-col gap-4 px-6 py-4">
+              {navLinks.map((link) => (
+                <li key={link.label}>
+                  <Link
+                    to={link.path}
+                    className="block text-lg uppercase font-medium tracking-widest py-2 border-b border-transparent hover:border-black transition-colors"
+                    onClick={() => setOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
-};
+}
 
-export default Navbar;
+function NavItem({ to, label }) {
+  return (
+    <Link
+      to={to}
+      className="relative uppercase tracking-widest text-sm font-medium text-gray-900 hover:text-black"
+    >
+      {label}
+      <span className="absolute left-0 -bottom-1 h-[1px] w-0 bg-black transition-all duration-300 group-hover:w-full"></span>
+    </Link>
+  );
+}
